@@ -5,8 +5,12 @@ class SyntaxCheck {
         def script = config.script
         def role = config.role
 
+        // Dynamically use role name if you want to target specific role
+        def playbookPath = "tests/test.yml"
+        def inventoryPath = "tests/inventory/dev.ini"
+
         script.sh """
-        ansible-playbook -i tests/inventory/dev.ini tests/test.yml --syntax-check
+            ansible-playbook -i ${inventoryPath} ${playbookPath} --syntax-check
         """
     }
 }
