@@ -1,9 +1,12 @@
 package org.devops.ansible
 
 class SyntaxCheck {
-    static void run(script, String role) {
+    static void run(Map config) {
+        def script = config.script
+        def role = config.role
+
         script.sh """
-        ansible-playbook tests/test.yml --syntax-check -e "role=${role}"
+        ansible-playbook -i inventory/dev.ini playbooks/roles/${role}/tasks/main.yml --syntax-check
         """
     }
 }
