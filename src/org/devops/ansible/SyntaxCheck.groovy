@@ -6,7 +6,7 @@ class SyntaxCheck {
         def role = config.role
 
         script.sh """
-        ansible-playbook -i inventory/dev.ini playbooks/roles/${role}/tasks/main.yml --syntax-check
+        ansible-playbook -i inventory/dev.ini tests/test.yml --syntax-check
         """
     }
 }
