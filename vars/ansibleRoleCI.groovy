@@ -2,16 +2,19 @@ import org.devops.ansible.SyntaxCheck
 import org.devops.ansible.LintCheck
 import org.devops.ansible.DryRunCheck
 
-def call(Map config) {
-    stage("Syntax Check for Role: ${config.roleName}") {
-        SyntaxCheck.run(script: this, role: config.roleName)
+def call(String roleName,
+         String playbook  = "tests/test.yml",
+         String inventory = "tests/inventory/dev.ini") {
+
+    stage("Syntax Check - ${roleName}") {
+        new SyntaxCheck().run(this, inventory, playbook)
     }
 
-    stage("Lint Check for Role: ${config.roleName}") {
-        LintCheck.run(script: this, role: config.roleName)
+    stage("Lint Check - ${roleName}") {
+        new LintCheck().run(this, roleName)
     }
 
-    stage("Dry Run for Role: ${config.roleName}") {
-        DryRunCheck.run(script: this, testPlaybook: config.testPlaybook)
+    stage("Dry Run - ${roleName}") {
+        new DryRunCheck().run(this, playbook, inventory)
     }
 }
