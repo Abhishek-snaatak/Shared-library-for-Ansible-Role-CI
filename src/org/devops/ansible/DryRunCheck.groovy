@@ -1,9 +1,15 @@
 package org.devops.ansible
 
 class DryRunCheck {
-    static void run(script, String testPlaybook) {
-        script.sh """
-        ansible-playbook ${testPlaybook} --check --diff
+
+    def run(steps,
+         {
+
+        steps.sh """
+        ansible-playbook \
+          -i ${inventory} \
+          ${playbook} \
+          --check --diff
         """
     }
 }
