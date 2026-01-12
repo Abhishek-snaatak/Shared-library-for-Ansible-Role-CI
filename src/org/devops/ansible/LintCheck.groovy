@@ -2,9 +2,9 @@ package org.devops.ansible
 
 class LintCheck {
 
-    def run(steps, String roleName) {
+    def run(steps, String rolesPath, String roleName) {
         steps.sh """
-        ansible-lint roles/${roleName}
+        ansible-lint ${rolesPath}/${roleName}
         """
     }
 }
