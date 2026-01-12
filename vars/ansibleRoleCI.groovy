@@ -5,18 +5,19 @@ import org.devops.ansible.DryRunCheck
 def call(Map config = [:]) {
 
     String roleName  = config.roleName
-    String playbook  = config.playbook  ?: 'tests/test.yml'
-    String inventory = config.inventory ?: 'tests/inventory/dev.ini'
+    String playbook  = config.playbook
+    String inventory = config.inventory ?: 'inventory/dev.ini'
+    String rolesPath = config.rolesPath ?: 'playbooks/roles'
 
     stage("Syntax Check - ${roleName}") {
-        new SyntaxCheck().run(this, inventory, playbook)
+        new SyntaxCheck().run(this, inventory, playbook, rolesPath)
     }
 
     stage("Lint Check - ${roleName}") {
-        new LintCheck().run(this, roleName)
+        new LintCheck().run(this, rolesPath, roleName)
     }
 
     stage("Dry Run - ${roleName}") {
-        new DryRunCheck().run(this, playbook, inventory)
+        new DryRunCheck().run(this, playbook, inventory, rolesPath)
     }
 }
