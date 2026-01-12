@@ -2,9 +2,11 @@ import org.devops.ansible.SyntaxCheck
 import org.devops.ansible.LintCheck
 import org.devops.ansible.DryRunCheck
 
-def call(String roleName,
-         String playbook  = "tests/test.yml",
-         String inventory = "tests/inventory/dev.ini") {
+def call(Map config = [:]) {
+
+    String roleName  = config.roleName
+    String playbook  = config.playbook  ?: 'tests/test.yml'
+    String inventory = config.inventory ?: 'tests/inventory/dev.ini'
 
     stage("Syntax Check - ${roleName}") {
         new SyntaxCheck().run(this, inventory, playbook)
